@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link link rel="stylesheet" href="style.css">
+    <title>QR generator</title>
+</head>
+<body>
+    <h1 class="heading">QR generator</h1>
+    <div class="container">
+
+        <input id="userInput" placeholder="Text or URL" type="text">
+        
+        <h6 id="err_msg" style="color: brown;text-align: center;font-size: 12px; display: none;">* enter the input *</h6>
+
+        <div id="qrimgD"></div>
+
+        <button id="getQR">Get QR</button>
+
+    </div>
+
+    <script>
+
+    var usrI = document.getElementById("userInput")
+    var err_msg = document.getElementById("err_msg")
+    var qrimgDiv = document.getElementById("qrimgD")
+
+    function check_inptut(){
+        if(usrI.value.length > 0){
+
+            generate_QR()
+            err_msg.style.display = "none"
+            
+        }
+        else{
+        
+            err_msg.style.display = "block"
+            qrimgDiv.innerHTML = ``
+            
+            usrI.classList.add("errorAnim")
+
+            setTimeout(()=>{
+                usrI.classList.remove("errorAnim")
+            },1000)
+
+        }
+    }
+
+    function generate_QR(){
+
+        var apiUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data="
+
+        qrimgDiv.innerHTML = ``
+
+        apiUrl = apiUrl + `${usrI.value}`
+
+        var qrimg = document.createElement("img")
+        qrimg.src = apiUrl
+
+        qrimg.classList.add("qrimgstyle")
+        qrimgD.classList.add("qrimg_divStyle")
+
+        qrimgDiv.appendChild(qrimg)
+        
+    }
+
+    var getQR = document.getElementById("getQR")
+
+    getQR.addEventListener("click",check_inptut)
+
+
+    </script>
+
+</body>
+</html>
